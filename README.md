@@ -1,10 +1,10 @@
 # TicketTracker
 Ticket Tracker is an application for tracking tickets for software development, or bugs.
 
-##Teck Stack: 
+## Teck Stack
 ASP.NET, C#, MySQL, JavaScript, HTML/CSS
 
-##Software Requirements
+## Software Requirements
 * Each task has
   * Name
   * Description
@@ -23,20 +23,20 @@ ASP.NET, C#, MySQL, JavaScript, HTML/CSS
 * MySQL database
 * Login using OAuth
 
-##Stretch Tasks
+## Stretch Tasks
 * Graph of tasks completed per week
 
-##MVP
+## MVP
 * Tasks can be created, deleted, and viewed
 * The tasks are saved and edited from a connected database
 
-##Roadmap
+## Roadmap
 * Project Started (3/14/2021)
 * All necessary part of project is initialized (3/14/2021)
 * MVP UI created.
 * MVP Database is created.
 * 
-##Installation
+## Installation
 
-##License
+## License
 GNU
