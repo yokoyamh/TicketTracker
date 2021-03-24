@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Index", "Home")">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("CardView", "Home", new  { category = "All" })">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="@Url.Action("cards", "Home")">
+                <a class="nav-link" href="@Url.Action("CardView", "Home", new  { category = "All" })">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -67,12 +67,12 @@
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Task List</h6>
-                        <a class="collapse-item" href="@Url.Action("cards", "Home")">Backlog</a>
-                        <a class="collapse-item" href="@Url.Action("cards", "Home")">Req Gathering</a>
-                        <a class="collapse-item" href="@Url.Action("cards", "Home")">In Progress</a>
-                        <a class="collapse-item" href="@Url.Action("cards", "Home")">QA</a>
-                        <a class="collapse-item" href="@Url.Action("cards", "Home")">Deployed</a>
-                        <a class="collapse-item" href="@Url.Action("cards", "Home")">User Acceptance</a>
+                        <a class="collapse-item" href="@Url.Action("CardView", "Home", new  { category = "Backlog" })">Backlog</a>
+                        <a class="collapse-item" href="@Url.Action("CardView", "Home", new  { category = "Req Gathering" })">Req Gathering</a>
+                        <a class="collapse-item" href="@Url.Action("CardView", "Home", new  { category = "In Progress" })">In Progress</a>
+                        <a class="collapse-item" href="@Url.Action("CardView", "Home", new  { category = "QA" })">QA</a>
+                        <a class="collapse-item" href="@Url.Action("CardView", "Home", new  { category = "Deployed" })">Deployed</a>
+                        <a class="collapse-item" href="@Url.Action("CardView", "Home", new  { category = "User Acceptance" })">User Acceptance</a>
                     </div>
                 </div>
             </li>
@@ -86,9 +86,10 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Task List</h6>
-                        <a class="collapse-item" href="@Url.Action("cards", "Home")">Board</a>
-                        <a class="collapse-item" href="@Url.Action("cards", "Home")">List</a>
+                        <h6 class="collapse-header">Views</h6>
+                        <a class="collapse-item" href="@Url.Action("CardView", "Home", new  { category = "All" })">Card View</a>
+                        <a class="collapse-item" href="@Url.Action("BoardView", "Home", new  { category = "All" })">Board View</a>
+                        <a class="collapse-item" href="@Url.Action("ListView", "Home", new  { category = "All" })">List View</a>
                     </div>
                 </div>
             </li>
