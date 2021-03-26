@@ -1,2 +1,11 @@
 C:\Users\study\source\repos\DataLibrary\obj\Debug\DataLibrary.csprojAssemblyReference.cache
 C:\Users\study\source\repos\DataLibrary\obj\Debug\DataLibrary.csproj.CoreCompileInputs.cache
+C:\Users\study\source\repos\TicketTracker\DataLibrary\bin\Debug\DataLibrary.dll
+C:\Users\study\source\repos\TicketTracker\DataLibrary\bin\Debug\DataLibrary.pdb
+C:\Users\study\source\repos\TicketTracker\DataLibrary\bin\Debug\Dapper.dll
+C:\Users\study\source\repos\TicketTracker\DataLibrary\bin\Debug\Dapper.xml
+C:\Users\study\source\repos\TicketTracker\DataLibrary\obj\Debug\DataLibrary.csprojAssemblyReference.cache
+C:\Users\study\source\repos\TicketTracker\DataLibrary\obj\Debug\DataLibrary.csproj.CoreCompileInputs.cache
+C:\Users\study\source\repos\TicketTracker\DataLibrary\obj\Debug\DataLibrary.csproj.CopyComplete
+C:\Users\study\source\repos\TicketTracker\DataLibrary\obj\Debug\DataLibrary.dll
+C:\Users\study\source\repos\TicketTracker\DataLibrary\obj\Debug\DataLibrary.pdb

@@ -9,7 +9,7 @@ namespace DataLibrary.Logic
 {
     public static class TaskProcessor
     {
-        public static int CreateTask(string name, int progress, string description, 
+        public static int CreateTask(string name, string progress, string description, 
                                      string assigned_to, string created_by, string created_dt)
         {
             TaskModel data = new TaskModel
@@ -21,23 +21,27 @@ namespace DataLibrary.Logic
                 Created_by = created_by,
                 Created_DT = created_dt
             };
-            string sql = @"INSERT into dbo.Tasks (Name, Progress, Description, Assigned_To, Created_By, Date_Created)
-                           VALUES (@Name, @Progress, @Description, @Assigned_To, @Created_by, @Created_DT);";
+            string sql = @"INSERT INTO dbo.Tasks (Name, Progress, Description, Assigned_To, Created_By, Date_Created)
+                           VALUES (@Name, @Progress, @Description, @Assigned_To, @Created_by, @Created_DT);";//TODO: Fix progress
             return sqlDataAccess.SaveData(sql, data);
         }
         public static List<TaskModel> LoadTasks(string Progress)
         {
             string sql = "";
-            if (Progress.ToUpper().Equals("All"))
+            if (Progress.ToUpper().Equals("ALL"))
             {
-                sql = @"SELECT Name, Progress, Description, Assigned_To, Created_By, Date_Created
-                            FROM dbo.Tasks;";
+                sql = @"SELECT task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
+                            FROM dbo.Tasks as task
+                            INNER JOIN dbo.Progress as progress ON 
+                                task.Progress = progress.ID;";
             }
             else
             {
-                sql = @"SELECT Name, Progress, Description, Assigned_To, Created_By, Date_Created
-                            FROM dbo.Tasks
-                            WHERE Progress = '" + Progress + @"';";
+                sql = @"SELECT task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
+                            FROM dbo.Tasks as task
+                            INNER JOIN dbo.Progress as progress ON 
+                                task.Progress = progress.ID
+                            WHERE progress.Name = '" + Progress + @"';";
             }
             return sqlDataAccess.LoadData<TaskModel>(sql);
         }

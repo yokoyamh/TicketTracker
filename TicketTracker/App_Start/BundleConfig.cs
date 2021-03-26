@@ -22,9 +22,18 @@ namespace TicketTracker
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Bootstrapjs").Include(
+                      "~/Content/assets/vendor/jquery/jquery.min.js",
+                      "~/Content/assets/vendor/jquery-easing/jquery.easing.min.js",
+                      "~/Scripts/js/sb-admin-2.min.js"
+                      ));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/assets/css/sb-admin-2.min.css",
+                      "~/Content/assets/vendor/fontawesome-free/css/all.min.css"
+                      ));
         }
     }
 }

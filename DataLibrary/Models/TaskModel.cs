@@ -11,7 +11,7 @@ namespace DataLibrary.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Progress { get; set; }
+        public string Progress { get; set; }
         public string Assigned_to { get; set; }
         public string Created_by { get; set; }
         public string Created_DT { get; set; }

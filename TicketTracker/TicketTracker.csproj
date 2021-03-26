@@ -179,7 +179,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -199,12 +198,12 @@
     <Content Include="Content\assets\img\undraw_profile_2.svg" />
     <Content Include="Content\assets\img\undraw_profile_3.svg" />
     <Content Include="Content\assets\img\undraw_rocket.svg" />
-    <Content Include="Content\assets\js\demo\chart-area-demo.js" />
-    <Content Include="Content\assets\js\demo\chart-bar-demo.js" />
-    <Content Include="Content\assets\js\demo\chart-pie-demo.js" />
-    <Content Include="Content\assets\js\demo\datatables-demo.js" />
-    <Content Include="Content\assets\js\sb-admin-2.js" />
-    <Content Include="Content\assets\js\sb-admin-2.min.js" />
+    <Content Include="Scripts\js\demo\chart-area-demo.js" />
+    <Content Include="Scripts\js\demo\chart-bar-demo.js" />
+    <Content Include="Scripts\js\demo\chart-pie-demo.js" />
+    <Content Include="Scripts\js\demo\datatables-demo.js" />
+    <Content Include="Scripts\js\sb-admin-2.js" />
+    <Content Include="Scripts\js\sb-admin-2.min.js" />
     <Content Include="Content\assets\vendor\bootstrap\js\bootstrap.bundle.js" />
     <Content Include="Content\assets\vendor\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="Content\assets\vendor\bootstrap\js\bootstrap.js" />

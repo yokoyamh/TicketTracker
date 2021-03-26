@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using TicketTracker.Models;
 using System.Configuration;
 using System.Data;
-using DataLibrary;
+using DataLibrary.Logic;
 
 namespace TicketTracker.Controllers
 {
@@ -14,10 +14,23 @@ namespace TicketTracker.Controllers
     {
         public ActionResult CardView(string category)
         {
-            var data = LoadTasks(category);
+            var data = TaskProcessor.LoadTasks(category);
+
             List<CardView> cardAry = new List<CardView>();
-            CardView newCard = new CardView() { id = 0, name = "teste", description = "test", progress = category };
-            return View(newCard);
+            foreach (var row in data)
+            {
+                cardAry.Add(new CardView
+                {
+                    id = row.Id,
+                    name = row.Name,
+                    progress = row.Progress,
+                    description = row.Description,
+                    assigned_to = row.Assigned_to,
+                    created_by = row.Created_by,
+                    created_dt = row.Created_DT
+                });
+            }
+            return View(cardAry);
         }
 
         public ActionResult About()

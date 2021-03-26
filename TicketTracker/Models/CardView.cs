@@ -11,6 +11,8 @@ namespace TicketTracker.Models
         public string name { get; set; }
         public string progress { get; set; }
         public string description { get; set; }
-
+        public string assigned_to { get; set; }
+        public string created_by { get; set; }
+        public string created_dt { get; set; }
     }
 }
