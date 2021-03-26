@@ -45,5 +45,29 @@ namespace DataLibrary.Logic
             }
             return sqlDataAccess.LoadData<TaskModel>(sql);
         }
+        public static List<TaskModel> LoadTask(string TaskID)
+        {
+            string sql = @"SELECT 1 task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
+                            FROM dbo.Tasks as task
+                            INNER JOIN dbo.Progress as progress ON 
+                                task.Progress = progress.ID;";
+            return sqlDataAccess.LoadData<TaskModel>(sql);
+        }
+        public static List<TaskHistory> LoadTaskHistory(string TaskID)
+        {
+            string sql = @"SELECT History.ID, History.Bug_ID, actionType.Name as ActionType, History.User_ID, History.Value
+                            FROM dbo.TaskHistory as History
+                            INNER JOIN dbo.Action_Type as actionType ON
+                                actionType.ID = History.Action_Type
+                            WHERE Bug_ID = " + TaskID + ";";
+            return sqlDataAccess.LoadData<TaskHistory>(sql);
+        }
+        public static List<TaskComment> LoadTaskComments(string TaskID)
+        {
+            string sql = @"SELECT ID, Bug_ID, User_ID, Comment, Created_DT
+                            FROM dbo.TaskComment as Comment
+                            WHERE Bug_ID = " + TaskID + ";";
+            return sqlDataAccess.LoadData<TaskComment>(sql);
+        }
     }
 }
