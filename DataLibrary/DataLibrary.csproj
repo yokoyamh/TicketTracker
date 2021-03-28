@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logic\TaskProcessor.cs" />
+    <Compile Include="Models\TaskComment.cs" />
+    <Compile Include="Models\TaskHistory.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\sqlDataAccess.cs" />

@@ -24,6 +24,7 @@ namespace TicketTracker
 
             bundles.Add(new ScriptBundle("~/bundles/Bootstrapjs").Include(
                       "~/Content/assets/vendor/jquery/jquery.min.js",
+                      "~/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
                       "~/Content/assets/vendor/jquery-easing/jquery.easing.min.js",
                       "~/Scripts/js/sb-admin-2.min.js"
                       ));

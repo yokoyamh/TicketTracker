@@ -7,7 +7,7 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+    <a href="#" class="btn btn-success btn-circle btn-lg">
         <i class="fas fa-plus-circle"></i>
     </a>
 </div>
@@ -69,63 +69,70 @@
     {
         <!-- Content Row -->
         <div class="row">
-            <div class="col-xl-3 col-md-6 mb-4">
-                <!-- Approach -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">@Model.ElementAt(index).name</h6>
-                    </div>
-                    <div class="card-body">
-                        <p>@Model.ElementAt(index).progress</p>
-                        <p>@Model.ElementAt(index).description</p>
-                    </div>
-                </div>
-            </div>
-            @if (index + 1 < Model.Count())
+        @{
+            var innerIndex = index;
+            while (innerIndex < Model.Count() && innerIndex < index + 4)
             {
                 <div class="col-xl-3 col-md-6 mb-4">
                     <!-- Approach -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">@Model.ElementAt(index + 1).name</h6>
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">@Model.ElementAt(innerIndex).name.TrimEnd(' ')</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#">View</a>
+                                    <a class="dropdown-item" href="#">Edit</a>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <p>@Model.ElementAt(index + 1).progress</p>
-                            <p>@Model.ElementAt(index + 1).description</p>
+                            @{ if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("Backlog"))
+                                {
+                                    <a href="#" class="btn btn-light btn-icon-split">
+                                        <span class="text">Backlog</span>
+                                    </a>
+                                }
+                                else if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("ReqGathering"))
+                                {
+                                    <a href="#" class="btn btn-secondary btn-icon-split">
+                                        <span class="text">Req Gathering</span>
+                                    </a>
+                                }
+                                else if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("InProgress"))
+                                {
+                                    <a href="#" class="btn btn-info btn-icon-split">
+                                        <span class="text">In Progress</span>
+                                    </a>
+                                }
+                                else if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("QA"))
+                                {
+                                    <a href="#" class="btn btn-warning btn-icon-split">
+                                        <span class="text">QA</span>
+                                    </a>
+                                }
+                                else if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("Deployed"))
+                                {
+                                    <a href="#" class="btn btn-primary btn-icon-split">
+                                        <span class="text">Deployed</span>
+                                    </a>
+                                }
+                                else if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("UserAcceptance"))
+                                {
+                                    <a href="#" class="btn btn-success btn-icon-split">
+                                        <span class="text">User Acceptance</span>
+                                    </a>
+                                }
+                            }
+                            <p>@Model.ElementAt(innerIndex).description</p>
                         </div>
                     </div>
                 </div>
+                innerIndex += 1;
             }
-            @if (index + 2 < Model.Count())
-            {
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <!-- Approach -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">@Model.ElementAt(index + 2).name</h6>
-                        </div>
-                        <div class="card-body">
-                            <p>@Model.ElementAt(index + 2).progress</p>
-                            <p>@Model.ElementAt(index + 2).description</p>
-                        </div>
-                    </div>
-                </div>
-            }
-            @if (index + 3 < Model.Count())
-            {
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <!-- Approach -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">@Model.ElementAt(index + 3).name</h6>
-                        </div>
-                        <div class="card-body">
-                            <p>@Model.ElementAt(index + 3).progress</p>
-                            <p>@Model.ElementAt(index + 3).description</p>
-                        </div>
-                    </div>
-                </div>
-            }
+        }
         </div>
         index += 4;
     }

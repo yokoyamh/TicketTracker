@@ -47,7 +47,7 @@ namespace DataLibrary.Logic
         }
         public static List<TaskModel> LoadTask(string TaskID)
         {
-            string sql = @"SELECT 1 task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
+            string sql = @"SELECT TOP(1) task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
                             FROM dbo.Tasks as task
                             INNER JOIN dbo.Progress as progress ON 
                                 task.Progress = progress.ID;";
