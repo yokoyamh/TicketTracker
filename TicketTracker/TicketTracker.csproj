@@ -183,12 +183,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\CardView.cs" />
+    <Compile Include="Models\CardViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\TaskComment.cs" />
-    <Compile Include="Models\TaskHistory.cs" />
-    <Compile Include="Models\TaskView.cs" />
+    <Compile Include="Models\TaskCommentModel.cs" />
+    <Compile Include="Models\TaskHistoryModel.cs" />
+    <Compile Include="Models\TaskViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

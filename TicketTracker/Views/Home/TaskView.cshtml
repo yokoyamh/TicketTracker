@@ -1,29 +1,81 @@
-﻿@model  IEnumerable<TicketTracker.Models.TaskView>
+﻿@model  TicketTracker.Models.TaskViewModel
 @{
     ViewBag.Title = "Task View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Task</h1>
-</div>
-
-<div class="col-lg-6 mb-4">
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">@Model.Count</h6>
+@using (Html.BeginForm("TaskView", "Home", FormMethod.Post, new { name = "Form" }))
+{
+    @Html.AntiForgeryToken()
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">@Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.name" } })</h1>
+        <button type="submit" class="btn btn-primary btn-circle btn-lg"> 
+            <i class="fas fa-save" id="SaveButton"></i>
+        </button>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Summary</h6>
+                </div>
+                <div class="card-body">
+                    <a href="#" class="btn btn-primary btn-icon-split">
+                        <span class="text">@Html.EditorFor(model => model.progress, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.progress" } })</span>
+                    </a>
+                    <p></p>
+                    <p><div>Created By: </div><div>@Html.EditorFor(model => model.created_by, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.created_by" } })</div></p>
+                    <p><div>Created At: </div><div>@Html.EditorFor(model => model.date_created, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.date_created" } })</div></p>
+                    <p><div>Assigned To: </div><div>@Html.EditorFor(model => model.assigned_to, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.assigned_to" } })</div></p>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <p>
-                SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                CSS bloat and poor page performance. Custom CSS classes are used to create
-                custom components and custom utility classes.
-            </p>
-            <p class="mb-0">
-                Before working with this theme, you should become familiar with the
-                Bootstrap framework, especially the utility classes.
-            </p>
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Description</h6>
+                </div>
+                <div class="card-body">
+                    @Html.TextAreaFor(model => model.description, 12, 40, new {  @class = "form-control", @placeholder = "@Model.description"} )
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<hr />
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">History</h6>
+            </div>
+            <div class="card-body" contenteditable="false">
+                @{
+                    for (int i = 0; i < Model.taskHistories.Count(); i++)
+                    {
+                        <p>@Model.taskHistories.ElementAt(i).user_id at @Model.taskHistories.ElementAt(i).Action_DT</p>
+                        <p>@Model.taskHistories.ElementAt(i).action</p>
+                        <hr />
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Comments</h6>
+            </div>
+            <div class="card-body">
+                @{
+                    for (int i = 0; i < Model.comments.Count(); i++)
+                    {
+                        <p>@Model.comments.ElementAt(i).User_ID at @Model.comments.ElementAt(i).Created_DT</p>
+                        <p>@Model.comments.ElementAt(i).Comment</p>
+                        <hr />
+                    }
+                }
+            </div>
         </div>
     </div>
 </div>

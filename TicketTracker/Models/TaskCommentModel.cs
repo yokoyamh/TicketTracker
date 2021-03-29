@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TicketTracker.Models
 {
-    public class TaskComment
+    public class TaskCommentModel
     {
         public int ID { get; set; }
         public string Bug_ID { get; set; }

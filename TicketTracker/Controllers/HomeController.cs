@@ -12,77 +12,127 @@ namespace TicketTracker.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult CardView(string category)
+        public ActionResult CardView(string id)
         {
-            var data = TaskProcessor.LoadTasks(category);
+            var data = TaskProcessor.LoadTasks(id);
 
-            List<CardView> cardAry = new List<CardView>();
+            List<CardViewModel> cardAry = new List<CardViewModel>();
             foreach (var row in data)
             {
-                cardAry.Add(new CardView
+                cardAry.Add(new CardViewModel
                 {
                     id = row.Id,
-                    name = row.Name,
-                    progress = row.Progress,
-                    description = row.Description,
-                    assigned_to = row.Assigned_to,
-                    created_by = row.Created_by,
-                    created_dt = row.Created_DT
+                    name = row.Name.TrimEnd(' '),
+                    progress = row.Progress.TrimEnd(' '),
+                    description = row.Description.TrimEnd(' '),
+                    assigned_to = row.Assigned_to.TrimEnd(' '),
+                    created_by = row.Created_by.TrimEnd(' '),
+                    date_created = row.Date_Created.TrimEnd(' ')
                 });
             }
             return View(cardAry);
         }
-        public ActionResult TaskView(string taskID)
+        public ActionResult TaskView(string id)
         {
-            var BaseData = TaskProcessor.LoadTask(taskID);
-            var HistoryData = TaskProcessor.LoadTaskHistory(taskID);
-            var CommentData = TaskProcessor.LoadTaskComments(taskID);
-            TaskView newTask = new TaskView {
-                id = Int32.Parse(taskID),
-                name = BaseData[0].Name,
-                progress = BaseData[0].Progress,
-                description = BaseData[0].Description,
-                assigned_to = BaseData[0].Assigned_to,
-                created_by = BaseData[0].Created_by,
-                created_dt = BaseData[0].Created_DT,
-                taskHistories = new List<TaskHistory>(),
-                comments = new List<TaskComment>()
-            };
-            foreach (var row in HistoryData)
+            TaskViewModel newTask = new TaskViewModel();
+            if (String.IsNullOrWhiteSpace(id) || id.TrimEnd(' ').Equals("0"))
             {
-                newTask.taskHistories.Add(new TaskHistory
+                newTask = new TaskViewModel
                 {
-                    TaskID = taskID,
-                    action = row.Action_Type,
-                    user_id = row.User_ID,
-                    value = row.Value
-                });
+                    id = 0,
+                    name = "Insert Task Name...",
+                    progress = "None",
+                    description = "Insert Description...",
+                    assigned_to = "Insert Assigned User...",
+                    created_by = "Insert Your User ID...",
+                    date_created = "Insert Date Created...",
+                    taskHistories = new List<TaskHistoryModel>(),
+                    comments = new List<TaskCommentModel>()
+                };
             }
-            foreach (var row in CommentData)
+            else
             {
-                newTask.comments.Add(new TaskComment
+                var BaseData = TaskProcessor.LoadTask(id);
+                var HistoryData = TaskProcessor.LoadTaskHistory(id);
+                var CommentData = TaskProcessor.LoadTaskComments(id);
+                newTask = new TaskViewModel
                 {
-                    ID = row.ID,
-                    User_ID = row.User_ID,
-                    Comment = row.Comment,
-                    Created_DT = row.Created_DT
-                });
+                    id = Int32.Parse(id),
+                    name = BaseData[0].Name.TrimEnd(' '),
+                    progress = BaseData[0].Progress.TrimEnd(' '),
+                    description = BaseData[0].Description.TrimEnd(' '),
+                    assigned_to = BaseData[0].Assigned_to.TrimEnd(' '),
+                    created_by = BaseData[0].Created_by.TrimEnd(' '),
+                    date_created = BaseData[0].Date_Created.TrimEnd(' '),
+                    taskHistories = new List<TaskHistoryModel>(),
+                    comments = new List<TaskCommentModel>()
+                };
+                foreach (var row in HistoryData)
+                {
+                    newTask.taskHistories.Add(new TaskHistoryModel
+                    {
+                        TaskID = id,
+                        action = row.Action_Type.TrimEnd(' '),
+                        user_id = row.User_ID.TrimEnd(' '),
+                        value = row.Value.TrimEnd(' '),
+                        Action_DT = row.Action_DT.TrimEnd(' ')
+                    });
+                }
+                foreach (var row in CommentData)
+                {
+                    newTask.comments.Add(new TaskCommentModel
+                    {
+                        ID = row.ID,
+                        User_ID = row.User_ID.TrimEnd(' '),
+                        Comment = row.Comment.TrimEnd(' '),
+                        Created_DT = row.Created_DT.TrimEnd(' ')
+                    });
+                }
             }
+
             return View(newTask);
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+        [HttpPost]
+        public ActionResult TaskView(TaskViewModel task)
+        { 
+            if (ModelState.IsValid)
+            {
+                if (task.id == 0)
+                {
+                    if (task.name.Contains("Insert Task Name..."))
+                    {
+                        return TaskView("0");
+                    }
+                    if (task.progress.Contains("None"))
+                    {
+                        task.progress = "Backlog";
+                    }
+                    if (task.description.Contains("Insert Description..."))
+                    {
+                        task.description = "";
+                    }
+                    if (task.assigned_to.Contains("Insert Assigned User..."))
+                    {
+                        task.assigned_to = "";
+                    }
+                    if (task.created_by.Contains("Insert Your User ID..."))
+                    {
+                        task.created_by = "";
+                    }
+                    if (task.date_created.Contains("Insert Date Created..."))
+                    {
+                        task.date_created = "";
+                    }
+                    var RowAffected = TaskProcessor.CreateTask(task.name, task.progress, task.description, task.assigned_to, task.created_by, task.date_created);
+                    return View(task);
+                }
+                else
+                {
+                    var RowAffected = TaskProcessor.UpdateTask(task.id.ToString(), task.name, task.progress, task.description, task.assigned_to, task.created_by, task.date_created);
+                    return TaskView(task.id.ToString());
+                }
+            }
+            return TaskView(task.id.ToString());
         }
     }
 }

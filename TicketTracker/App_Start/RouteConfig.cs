@@ -14,8 +14,13 @@ namespace TicketTracker
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{category}",
-                defaults: new { controller = "Home", action = "CardView", category = "All" }
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "CardView", id = "All" }
+            );
+            routes.MapRoute(
+                name: "TaskView",
+                url: "Home/TaskView/{taskID}",
+                defaults: new { controller = "Home", action = "TaskView", id = "0" }
             );
         }
     }

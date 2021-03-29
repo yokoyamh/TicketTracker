@@ -15,6 +15,6 @@ namespace DataLibrary.Models
         public string Description { get; set; }
         public string Assigned_to { get; set; }
         public string Created_by { get; set; }
-        public string Created_DT { get; set; }
+        public string Date_Created { get; set; }
     }
 }

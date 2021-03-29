@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TicketTracker.Models
 {
-    public class TaskView
+    public class TaskViewModel
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -14,8 +14,8 @@ namespace TicketTracker.Models
         public string description { get; set; }
         public string assigned_to { get; set; }
         public string created_by { get; set; }
-        public string created_dt { get; set; }
-        public List<TaskComment> comments { get; set; }
-        public List<TaskHistory> taskHistories { get; set; }
+        public string date_created { get; set; }
+        public List<TaskCommentModel> comments { get; set; }
+        public List<TaskHistoryModel> taskHistories { get; set; }
     }
 }
