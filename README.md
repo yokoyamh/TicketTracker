@@ -30,6 +30,7 @@ Each task has
   * All necessary part of project is initialized (3/14/2021)
   * MVP UI created.
   * MVP Database is created.
+  * MVP Finished (3/28/2021)
 ## Installation
 ## License
 GNU
