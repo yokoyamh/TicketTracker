@@ -103,10 +103,6 @@ namespace TicketTracker.Controllers
                     {
                         return TaskView("0");
                     }
-                    if (task.progress.Contains("None"))
-                    {
-                        task.progress = "Backlog";
-                    }
                     if (task.description.Contains("Insert Description..."))
                     {
                         task.description = "";
@@ -123,16 +119,50 @@ namespace TicketTracker.Controllers
                     {
                         task.date_created = "";
                     }
-                    var RowAffected = TaskProcessor.CreateTask(task.name, task.progress, task.description, task.assigned_to, task.created_by, task.date_created);
+                    var RowAffected = TaskProcessor.CreateTask(task.name, task.description, task.assigned_to, task.created_by, task.date_created);
+                    task.taskHistories = new List<TaskHistoryModel>();
+                    task.comments = new List<TaskCommentModel>();
                     return View(task);
                 }
                 else
                 {
-                    var RowAffected = TaskProcessor.UpdateTask(task.id.ToString(), task.name, task.progress, task.description, task.assigned_to, task.created_by, task.date_created);
+                    var RowAffected = TaskProcessor.UpdateTask(task.id.ToString(), task.name, task.description, task.assigned_to, task.created_by, task.date_created);
                     return TaskView(task.id.ToString());
                 }
             }
             return TaskView(task.id.ToString());
+        }
+        public ActionResult Action(string id)
+        {
+            string[] identifiers = id.Split('_');
+            int identifierCount = identifiers.Count();
+            if (identifiers.Count() == 5)
+            {
+                string view = identifiers[0];
+                string viewID = identifiers[1];
+                string ID = identifiers[2];
+                string action = identifiers[3];
+                string actionID = identifiers[4];
+                if (action.Equals("ProgressEdit"))
+                {
+                    var RowAffected = TaskProcessor.UpdateProgress(ID, actionID);
+                }
+                if (action.Equals("Delete"))
+                {
+                    var RowAffected = TaskProcessor.DeleteTask(ID);
+                    return RedirectToAction("CardView", "Home", new { id = "All" });
+                }
+                if (view.Equals("TaskView"))
+                {
+                    return RedirectToAction("TaskView", "Home", new { id = viewID });
+                }
+                else if (view.Equals("CardView"))
+                {
+                    return RedirectToAction("CardView", "Home", new { id = viewID });
+                }
+            }
+
+            return RedirectToAction("CardView", "Home");
         }
     }
 }

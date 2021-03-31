@@ -9,32 +9,30 @@ namespace DataLibrary.Logic
 {
     public static class TaskProcessor
     {
-        public static int CreateTask(string name, string progress, string description, 
+        public static int CreateTask(string name, string description, 
                                      string assigned_to, string created_by, string date_created)
         {
             TaskModel data = new TaskModel
             {
                 Name = name,
-                Progress = progress,
+                Progress = "Backlog",
                 Description = description,
                 Assigned_to = assigned_to,
                 Created_by = created_by,
                 Date_Created = date_created
             };
             string sql = @"INSERT INTO dbo.Tasks (Name, Progress, Description, Assigned_To, Created_By, Date_Created)
-                           SELECT @Name, p.ID, @Description, @Assigned_To, @Created_by, @Created_DT
+                           SELECT @Name, p.ID, @Description, @Assigned_To, @Created_by, @Date_Created
                                 FROM dbo.Progress as p
                                 WHERE p.Name = @Progress;";
             return sqlDataAccess.SaveData(sql, data);
         }
-        public static int UpdateTask(string id, string name, string progress, string description,
-                                     string assigned_to, string created_by, string date_created)
+        public static int UpdateTask(string id, string name, string description, string assigned_to, string created_by, string date_created)
         {
             TaskModel data = new TaskModel
             {
                 Id = Int32.Parse(id),
                 Name = name,
-                Progress = progress,
                 Description = description,
                 Assigned_to = assigned_to,
                 Created_by = created_by,
@@ -42,14 +40,25 @@ namespace DataLibrary.Logic
             };
             string sql = @"UPDATE dbo.Tasks 
                            SET Name = @Name, 
-                                Progress = Pr.ID,
                                 Description = @Description, 
                                 Assigned_To = @Assigned_to, 
                                 Created_By = @Created_by,
                                 Date_Created = @Date_Created
-                           FROM dbo.Progress as Pr
-                           WHERE Tasks.ID = @Id AND Pr.Name = @Progress;";
+                           WHERE Tasks.ID = @Id;";
             return sqlDataAccess.SaveData(sql, data);
+        }
+        public static int UpdateProgress(string id, string progress)
+        {
+            string sql = @"UPDATE dbo.Tasks 
+                           SET  Progress = Pr.ID
+                           FROM dbo.Progress as Pr
+                           WHERE Tasks.ID = " + id + " AND Pr.Name = '" + progress + @"';";
+            return sqlDataAccess.SaveData(sql);
+        }
+        public static int DeleteTask(string id)
+        {
+            string sql = @"DELETE FROM dbo.Tasks WHERE Tasks.ID = " + id + ";";
+            return sqlDataAccess.SaveData(sql);
         }
 
         public static List<TaskModel> LoadTasks(string Progress)
@@ -60,15 +69,17 @@ namespace DataLibrary.Logic
                 sql = @"SELECT task.ID, task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
                             FROM dbo.Tasks as task
                             INNER JOIN dbo.Progress as progress ON 
-                                task.Progress = progress.ID;";
+                                task.Progress = progress.ID
+                            ORDER BY task.Progress;";
             }
             else
             {
-                sql = @"SELECT task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
+                sql = @"SELECT task.ID, task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
                             FROM dbo.Tasks as task
                             INNER JOIN dbo.Progress as progress ON 
                                 task.Progress = progress.ID
-                            WHERE progress.Name = '" + Progress + @"';";
+                            WHERE progress.Name = '" + Progress + @"'
+                            ORDER BY task.Progress;";
             }
             return sqlDataAccess.LoadData<TaskModel>(sql);
         }

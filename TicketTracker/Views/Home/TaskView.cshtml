@@ -9,9 +9,15 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.name" } })</h1>
+        <div>
+        @{ var DeleteactionID = "TaskView_" + Model.id + "_" + Model.id + "_Delete_0";}
+        <a href="@Url.Action("Action", "Home", new  { id =  DeleteactionID})" class="btn btn-danger btn-circle btn-lg">
+            <i class="fas fa-trash"></i>
+        </a>
         <button type="submit" class="btn btn-primary btn-circle btn-lg"> 
             <i class="fas fa-save" id="SaveButton"></i>
         </button>
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-6 mb-4">
@@ -20,9 +26,34 @@
                     <h6 class="m-0 font-weight-bold text-primary">Summary</h6>
                 </div>
                 <div class="card-body">
-                    <a href="#" class="btn btn-primary btn-icon-split">
-                        <span class="text">@Html.EditorFor(model => model.progress, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.progress" } })</span>
-                    </a>
+                    @{ 
+                        if (Model.id != 0)
+                        {
+                            var ProgressClass = Model.progressClass[Array.IndexOf(Model.progressDef, Model.progress)];
+                            var btnProgressClass = "btn " + ProgressClass + " dropdown-toggle";
+                            <div class="dropdown mb-4">
+
+                                <button class="@btnProgressClass" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @Model.progress
+                                </button>
+                                <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                    @{
+                                        for (int i = 0; i < Model.progressDef.Length; i++)
+                                        {
+                                            var ThisProgressClass = Model.progressClass[i];
+                                            var ThisBtnProgressClass = "btn " + ThisProgressClass + " btn-icon-split";
+                                            var actionID = "TaskView_" + Model.id + "_" + Model.id + "_ProgressEdit_" + Model.progressDef[i];
+                                            <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = actionID })">
+                                                <b class="@ThisBtnProgressClass">
+                                                    <span class="text">@Model.progressDef[i]</span>
+                                                 </b>
+                                            </a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            }
+                        }
                     <p></p>
                     <p><div>Created By: </div><div>@Html.EditorFor(model => model.created_by, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.created_by" } })</div></p>
                     <p><div>Created At: </div><div>@Html.EditorFor(model => model.date_created, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.date_created" } })</div></p>
