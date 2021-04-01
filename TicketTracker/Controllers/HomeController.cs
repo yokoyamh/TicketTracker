@@ -69,14 +69,15 @@ namespace TicketTracker.Controllers
                 };
                 foreach (var row in HistoryData)
                 {
-                    newTask.taskHistories.Add(new TaskHistoryModel
+                    TaskHistoryModel newHistory = new TaskHistoryModel
                     {
                         TaskID = id,
                         action = row.Action_Type.TrimEnd(' '),
                         user_id = row.User_ID.TrimEnd(' '),
                         value = row.Value.TrimEnd(' '),
                         Action_DT = row.Action_DT.TrimEnd(' ')
-                    });
+                    };
+                    newTask.taskHistories.Add(newHistory);
                 }
                 foreach (var row in CommentData)
                 {
@@ -97,6 +98,7 @@ namespace TicketTracker.Controllers
         { 
             if (ModelState.IsValid)
             {
+                task.date_created = DateTime.Now.ToString();
                 if (task.id == 0)
                 {
                     if (task.name.Contains("Insert Task Name..."))
@@ -115,10 +117,7 @@ namespace TicketTracker.Controllers
                     {
                         task.created_by = "";
                     }
-                    if (task.date_created.Contains("Insert Date Created..."))
-                    {
-                        task.date_created = "";
-                    }
+                    
                     var RowAffected = TaskProcessor.CreateTask(task.name, task.description, task.assigned_to, task.created_by, task.date_created);
                     task.taskHistories = new List<TaskHistoryModel>();
                     task.comments = new List<TaskCommentModel>();
@@ -127,6 +126,7 @@ namespace TicketTracker.Controllers
                 else
                 {
                     var RowAffected = TaskProcessor.UpdateTask(task.id.ToString(), task.name, task.description, task.assigned_to, task.created_by, task.date_created);
+                    var RowAffected2 = TaskProcessor.AddHistory(task.id.ToString(), "7", "Hayato", "", task.date_created);
                     return TaskView(task.id.ToString());
                 }
             }
@@ -143,13 +143,18 @@ namespace TicketTracker.Controllers
                 string ID = identifiers[2];
                 string action = identifiers[3];
                 string actionID = identifiers[4];
+                string action_DT = DateTime.Now.ToString();
                 if (action.Equals("ProgressEdit"))
                 {
                     var RowAffected = TaskProcessor.UpdateProgress(ID, actionID);
+                    string[] progressDef = { "Backlog", "Req Gathering", "In Progress", "QA", "Deployed", "User Acceptance" };
+                    string HistoryAction = (Array.IndexOf(progressDef, actionID) + 2).ToString();
+                    var RowAffected2 = TaskProcessor.AddHistory(ID, HistoryAction, "Hayato", "", action_DT);
                 }
                 if (action.Equals("Delete"))
                 {
                     var RowAffected = TaskProcessor.DeleteTask(ID);
+                    var RowAffected2 = TaskProcessor.AddHistory("0", "9", "Hayato", ID, action_DT);
                     return RedirectToAction("CardView", "Home", new { id = "All" });
                 }
                 if (view.Equals("TaskView"))

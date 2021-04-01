@@ -94,12 +94,27 @@ namespace DataLibrary.Logic
         }
         public static List<TaskHistoryModel> LoadTaskHistory(string TaskID)
         {
-            string sql = @"SELECT History.ID, History.Bug_ID, actionType.Name as ActionType, History.User_ID, History.Value, History.Action_DT
+            string sql = @"SELECT History.ID, History.Bug_ID, actionType.Name as Action_Type, History.User_ID, History.Value, History.Action_DT
                             FROM dbo.TaskHistory as History
                             INNER JOIN dbo.Action_Type as actionType ON
                                 actionType.ID = History.Action_Type
-                            WHERE Bug_ID = " + TaskID + ";";
+                            WHERE Bug_ID = " + TaskID + 
+                            "ORDER BY History.ID DESC;";
             return sqlDataAccess.LoadData<TaskHistoryModel>(sql);
+        }
+        public static int AddHistory(string task_id, string action_id, string user_id, string value, string action_dt)
+        {
+            TaskHistoryModel data = new TaskHistoryModel
+            {
+                Bug_ID = task_id.ToString(),
+                Action_Type = action_id,
+                User_ID = user_id,
+                Value = value,
+                Action_DT = action_dt
+            };
+            string sql = @"INSERT INTO dbo.TaskHistory (Bug_ID, Action_Type, User_ID, Value, Action_DT)
+                           SELECT @Bug_ID, @Action_Type, @User_ID, @Value, @Action_DT;";
+            return sqlDataAccess.SaveData(sql, data);
         }
         public static List<TaskCommentModel> LoadTaskComments(string TaskID)
         {

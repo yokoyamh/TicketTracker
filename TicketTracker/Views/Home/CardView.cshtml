@@ -55,48 +55,35 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                                     <a class="dropdown-item" href="@Url.Action("TaskView", "Home", new  { id = Model.ElementAt(innerIndex).id.ToString().TrimEnd(' ') })">View/Edit</a>
-                                    @{ var actionID = "CardView_All_" + Model.ElementAt(innerIndex).id + "_Delete_0";}
-                                    <a class="dropdown-item" href="@Url.Action("Action", "Home", new  { id =  actionID})">Delete</a>
+                                    @{ var DeleteActionID = "CardView_All_" + Model.ElementAt(innerIndex).id + "_Delete_0";}
+                                    <a class="dropdown-item" href="@Url.Action("Action", "Home", new  { id =  DeleteActionID})">Delete</a>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            @{ if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("Backlog"))
-                                {
-                                    <a href="#" class="btn btn-light btn-icon-split">
-                                        <span class="text">Backlog</span>
-                                    </a>
-                                }
-                                else if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("ReqGathering"))
-                                {
-                                    <a href="#" class="btn btn-secondary btn-icon-split">
-                                        <span class="text">Req Gathering</span>
-                                    </a>
-                                }
-                                else if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("InProgress"))
-                                {
-                                    <a href="#" class="btn btn-info btn-icon-split">
-                                        <span class="text">In Progress</span>
-                                    </a>
-                                }
-                                else if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("QA"))
-                                {
-                                    <a href="#" class="btn btn-warning btn-icon-split">
-                                        <span class="text">QA</span>
-                                    </a>
-                                }
-                                else if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("Deployed"))
-                                {
-                                    <a href="#" class="btn btn-primary btn-icon-split">
-                                        <span class="text">Deployed</span>
-                                    </a>
-                                }
-                                else if (String.Concat(Model.ElementAt(innerIndex).progress.Where(c => !Char.IsWhiteSpace(c))).Equals("UserAcceptance"))
-                                {
-                                    <a href="#" class="btn btn-success btn-icon-split">
-                                        <span class="text">User Acceptance</span>
-                                    </a>
-                                }
+                            @{
+                                    var ProgressClass = Model.ElementAt(innerIndex).progressClass[Array.IndexOf(Model.ElementAt(innerIndex).progressDef, Model.ElementAt(innerIndex).progress)];
+                                    var btnProgressClass = "btn " + ProgressClass + " dropdown-toggle";
+                                    <div class="dropdown mb-4">
+                                        <button class="@btnProgressClass" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @Model.ElementAt(innerIndex).progress
+                                        </button>
+                                        <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                            @{
+                                                for (int i = 0; i < Model.ElementAt(innerIndex).progressDef.Length; i++)
+                                                {
+                                                    var ThisProgressClass = Model.ElementAt(innerIndex).progressClass[i];
+                                                    var ThisBtnProgressClass = "btn " + ThisProgressClass + " btn-icon-split";
+                                                    var ProgressActionID = "CardView_All_" + Model.ElementAt(innerIndex).id + "_ProgressEdit_" + Model.ElementAt(innerIndex).progressDef[i];
+                                                    <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = ProgressActionID })">
+                                                        <b class="@ThisBtnProgressClass">
+                                                            <span class="text">@Model.ElementAt(innerIndex).progressDef[i]</span>
+                                                        </b>
+                                                    </a>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
                             }
                             <p>@Model.ElementAt(innerIndex).description</p>
                         </div>

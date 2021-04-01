@@ -14,5 +14,8 @@ namespace TicketTracker.Models
         public string assigned_to { get; set; }
         public string created_by { get; set; }
         public string date_created { get; set; }
+
+        public string[] progressDef = { "Backlog", "Req Gathering", "In Progress", "QA", "Deployed", "User Acceptance" };
+        public string[] progressClass = { "btn-light", "btn-secondary", "btn-info", "btn-warning", "btn-primary", "btn-success" };
     }
 }

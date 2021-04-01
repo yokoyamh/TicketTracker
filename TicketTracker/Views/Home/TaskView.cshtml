@@ -8,10 +8,10 @@
     @Html.AntiForgeryToken()
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">@Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.name" } })</h1>
+        <h1 class="h3 mb-0 text-gray-800">@Html.EditorFor(model => model.name, new { htmlAttributes = new { @placeholder = "@Model.name" } })</h1>
         <div>
-        @{ var DeleteactionID = "TaskView_" + Model.id + "_" + Model.id + "_Delete_0";}
-        <a href="@Url.Action("Action", "Home", new  { id =  DeleteactionID})" class="btn btn-danger btn-circle btn-lg">
+        @{ var DeleteActionID = "TaskView_" + Model.id + "_" + Model.id + "_Delete_0";}
+        <a href="@Url.Action("Action", "Home", new  { id =  DeleteActionID})" class="btn btn-danger btn-circle btn-lg">
             <i class="fas fa-trash"></i>
         </a>
         <button type="submit" class="btn btn-primary btn-circle btn-lg"> 
@@ -42,8 +42,8 @@
                                         {
                                             var ThisProgressClass = Model.progressClass[i];
                                             var ThisBtnProgressClass = "btn " + ThisProgressClass + " btn-icon-split";
-                                            var actionID = "TaskView_" + Model.id + "_" + Model.id + "_ProgressEdit_" + Model.progressDef[i];
-                                            <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = actionID })">
+                                            var ProgressActionID = "TaskView_" + Model.id + "_" + Model.id + "_ProgressEdit_" + Model.progressDef[i];
+                                            <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = ProgressActionID })">
                                                 <b class="@ThisBtnProgressClass">
                                                     <span class="text">@Model.progressDef[i]</span>
                                                  </b>
