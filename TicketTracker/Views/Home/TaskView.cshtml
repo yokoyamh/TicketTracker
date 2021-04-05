@@ -3,6 +3,7 @@
     ViewBag.Title = "Task View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using Microsoft.AspNet.Identity
 @using (Html.BeginForm("TaskView", "Home", FormMethod.Post, new { name = "Form" }))
 {
     @Html.AntiForgeryToken()
@@ -10,13 +11,13 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@Html.EditorFor(model => model.name, new { htmlAttributes = new { @placeholder = "@Model.name" } })</h1>
         <div>
-        @{ var DeleteActionID = "TaskView_" + Model.id + "_" + Model.id + "_Delete_0";}
-        <a href="@Url.Action("Action", "Home", new  { id =  DeleteActionID})" class="btn btn-danger btn-circle btn-lg">
-            <i class="fas fa-trash"></i>
-        </a>
-        <button type="submit" class="btn btn-primary btn-circle btn-lg"> 
-            <i class="fas fa-save" id="SaveButton"></i>
-        </button>
+            @{ var DeleteActionID = "TaskView_" + Model.id + "_" + Model.id + "_Delete_0";}
+            <a href="@Url.Action("Action", "Home", new { id = DeleteActionID })" class="btn btn-danger btn-circle btn-lg">
+                <i class="fas fa-trash"></i>
+            </a>
+            <button type="submit" class="btn btn-primary btn-circle btn-lg">
+                <i class="fas fa-save" id="SaveButton"></i>
+            </button>
         </div>
     </div>
     <div class="row">
@@ -26,7 +27,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Summary</h6>
                 </div>
                 <div class="card-body">
-                    @{ 
+                    @{
                         if (Model.id != 0)
                         {
                             var ProgressClass = Model.progressClass[Array.IndexOf(Model.progressDef, Model.progress)];
@@ -46,17 +47,21 @@
                                             <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = ProgressActionID })">
                                                 <b class="@ThisBtnProgressClass">
                                                     <span class="text">@Model.progressDef[i]</span>
-                                                 </b>
+                                                </b>
                                             </a>
                                         }
                                     }
                                 </div>
                             </div>
-                            }
                         }
+                    }
                     <p></p>
-                    <p><div>Created By: </div><div>@Html.EditorFor(model => model.created_by, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.created_by" } })</div></p>
-                    <p><div>Created At: </div><div>@Html.EditorFor(model => model.date_created, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.date_created" } })</div></p>
+                    @{ if (Model.id != 0)
+                        {
+                            <p><div>Created By: </div><div>@Model.created_by</div></p>
+                            <p><div>Created At: </div><div>@Model.date_created</div></p>
+                        }
+                    }
                     <p><div>Assigned To: </div><div>@Html.EditorFor(model => model.assigned_to, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.assigned_to" } })</div></p>
                 </div>
             </div>
@@ -67,7 +72,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Description</h6>
                 </div>
                 <div class="card-body">
-                    @Html.TextAreaFor(model => model.description, 12, 40, new {  @class = "form-control", @placeholder = "@Model.description"} )
+                    @Html.TextAreaFor(model => model.description, 12, 40, new { @class = "form-control", @placeholder = "@Model.description" })
                 </div>
             </div>
         </div>

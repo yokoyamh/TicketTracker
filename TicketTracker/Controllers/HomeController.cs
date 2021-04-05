@@ -14,6 +14,11 @@ namespace TicketTracker.Controllers
     {
         public ActionResult CardView(string id)
         {
+            bool isAuthenticated = User.Identity.IsAuthenticated;
+            if (!isAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var data = TaskProcessor.LoadTasks(id);
 
             List<CardViewModel> cardAry = new List<CardViewModel>();
@@ -34,6 +39,11 @@ namespace TicketTracker.Controllers
         }
         public ActionResult TaskView(string id)
         {
+            bool isAuthenticated = User.Identity.IsAuthenticated;
+            if (!isAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             TaskViewModel newTask = new TaskViewModel();
             if (String.IsNullOrWhiteSpace(id) || id.TrimEnd(' ').Equals("0"))
             {
@@ -44,8 +54,6 @@ namespace TicketTracker.Controllers
                     progress = "None",
                     description = "Insert Description...",
                     assigned_to = "Insert Assigned User...",
-                    created_by = "Insert Your User ID...",
-                    date_created = "Insert Date Created...",
                     taskHistories = new List<TaskHistoryModel>(),
                     comments = new List<TaskCommentModel>()
                 };
@@ -99,6 +107,7 @@ namespace TicketTracker.Controllers
             if (ModelState.IsValid)
             {
                 task.date_created = DateTime.Now.ToString();
+                string user = User.Identity.Name;
                 if (task.id == 0)
                 {
                     if (task.name.Contains("Insert Task Name..."))
@@ -113,20 +122,16 @@ namespace TicketTracker.Controllers
                     {
                         task.assigned_to = "";
                     }
-                    if (task.created_by.Contains("Insert Your User ID..."))
-                    {
-                        task.created_by = "";
-                    }
                     
-                    var RowAffected = TaskProcessor.CreateTask(task.name, task.description, task.assigned_to, task.created_by, task.date_created);
+                    var RowAffected = TaskProcessor.CreateTask(task.name, task.description, task.assigned_to, user, task.date_created);
                     task.taskHistories = new List<TaskHistoryModel>();
                     task.comments = new List<TaskCommentModel>();
-                    return View(task);
+                    return RedirectToAction("CardView", "Home");
                 }
                 else
                 {
-                    var RowAffected = TaskProcessor.UpdateTask(task.id.ToString(), task.name, task.description, task.assigned_to, task.created_by, task.date_created);
-                    var RowAffected2 = TaskProcessor.AddHistory(task.id.ToString(), "7", "Hayato", "", task.date_created);
+                    var RowAffected = TaskProcessor.UpdateTask(task.id.ToString(), task.name, task.description, task.assigned_to);
+                    var RowAffected2 = TaskProcessor.AddHistory(task.id.ToString(), "8", user, "", task.date_created);
                     return TaskView(task.id.ToString());
                 }
             }
@@ -144,18 +149,19 @@ namespace TicketTracker.Controllers
                 string action = identifiers[3];
                 string actionID = identifiers[4];
                 string action_DT = DateTime.Now.ToString();
+                string user = User.Identity.Name;
                 if (action.Equals("ProgressEdit"))
                 {
                     var RowAffected = TaskProcessor.UpdateProgress(ID, actionID);
                     string[] progressDef = { "Backlog", "Req Gathering", "In Progress", "QA", "Deployed", "User Acceptance" };
                     string HistoryAction = (Array.IndexOf(progressDef, actionID) + 2).ToString();
-                    var RowAffected2 = TaskProcessor.AddHistory(ID, HistoryAction, "Hayato", "", action_DT);
+                    var RowAffected2 = TaskProcessor.AddHistory(ID, HistoryAction, user, "", action_DT);
                 }
                 if (action.Equals("Delete"))
                 {
                     var RowAffected = TaskProcessor.DeleteTask(ID);
-                    var RowAffected2 = TaskProcessor.AddHistory("0", "9", "Hayato", ID, action_DT);
-                    return RedirectToAction("CardView", "Home", new { id = "All" });
+                    var RowAffected2 = TaskProcessor.AddHistory("0", "10", user, ID, action_DT);
+                    return RedirectToAction("CardView", "Home");
                 }
                 if (view.Equals("TaskView"))
                 {
