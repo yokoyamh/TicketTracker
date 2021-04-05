@@ -27,23 +27,19 @@ namespace DataLibrary.Logic
                                 WHERE p.Name = @Progress;";
             return sqlDataAccess.SaveData(sql, data);
         }
-        public static int UpdateTask(string id, string name, string description, string assigned_to, string created_by, string date_created)
+        public static int UpdateTask(string id, string name, string description, string assigned_to)
         {
             TaskModel data = new TaskModel
             {
                 Id = Int32.Parse(id),
                 Name = name,
                 Description = description,
-                Assigned_to = assigned_to,
-                Created_by = created_by,
-                Date_Created = date_created
+                Assigned_to = assigned_to
             };
             string sql = @"UPDATE dbo.Tasks 
                            SET Name = @Name, 
                                 Description = @Description, 
-                                Assigned_To = @Assigned_to, 
-                                Created_By = @Created_by,
-                                Date_Created = @Date_Created
+                                Assigned_To = @Assigned_to
                            WHERE Tasks.ID = @Id;";
             return sqlDataAccess.SaveData(sql, data);
         }
