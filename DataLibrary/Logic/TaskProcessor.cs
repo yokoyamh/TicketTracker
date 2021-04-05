@@ -102,7 +102,7 @@ namespace DataLibrary.Logic
         {
             TaskHistoryModel data = new TaskHistoryModel
             {
-                Bug_ID = task_id.ToString(),
+                Bug_ID = task_id,
                 Action_Type = action_id,
                 User_ID = user_id,
                 Value = value,
@@ -118,6 +118,19 @@ namespace DataLibrary.Logic
                             FROM dbo.TaskComment as Comment
                             WHERE Bug_ID = " + TaskID + ";";
             return sqlDataAccess.LoadData<TaskCommentModel>(sql);
+        }
+        public static int AddComment(string task_id, string user_id, string comment, string date_created)
+        {
+            TaskCommentModel data = new TaskCommentModel
+            {
+                Bug_ID = task_id,
+                User_ID = user_id,
+                Comment = comment,
+                Created_DT = date_created
+            };
+            string sql = @"INSERT INTO dbo.TaskComment (Bug_ID, User_ID, Comment, Created_DT)
+                           SELECT @Bug_ID, @User_ID, @Comment, @Created_DT;";
+            return sqlDataAccess.SaveData(sql, data);
         }
     }
 }

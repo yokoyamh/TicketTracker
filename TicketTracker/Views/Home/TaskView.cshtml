@@ -6,7 +6,7 @@
 @using Microsoft.AspNet.Identity
 @using (Html.BeginForm("TaskView", "Home", FormMethod.Post, new { name = "Form" }))
 {
-    @Html.AntiForgeryToken()
+    Html.AntiForgeryToken();
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@Html.EditorFor(model => model.name, new { htmlAttributes = new { @placeholder = "@Model.name" } })</h1>
@@ -103,15 +103,24 @@
                 <h6 class="m-0 font-weight-bold text-primary">Comments</h6>
             </div>
             <div class="card-body">
-                @{
-                    for (int i = 0; i < Model.comments.Count(); i++)
+                    @if (Model.id != 0)
                     {
-                        <p>@Model.comments.ElementAt(i).User_ID at @Model.comments.ElementAt(i).Created_DT</p>
-                        <p>@Model.comments.ElementAt(i).Comment</p>
-                        <hr />
+                        <form action="/Home/AddComment" method="post" id="commentForm">
+                            <input type="hidden" value="@Model.id" name="task_id">
+                            <textarea name="comment" form="commentForm" rows="6" class="form-control" placeholder="Enter text here..."></textarea>
+                            <input type="submit" value="Submit" />
+                        </form>
                     }
-                }
-            </div>
+                    <hr />
+                    @{
+                        for (int i = 0; i < Model.comments.Count(); i++)
+                        {
+                            <p>@Model.comments.ElementAt(i).User_ID at @Model.comments.ElementAt(i).Created_DT</p>
+                            <p>@Model.comments.ElementAt(i).Comment</p>
+                            <hr />
+                        }
+                    }
+                </div>
         </div>
     </div>
 </div>

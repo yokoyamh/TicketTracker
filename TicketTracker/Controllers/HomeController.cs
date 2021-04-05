@@ -45,7 +45,7 @@ namespace TicketTracker.Controllers
                 return RedirectToAction("Login", "Account");
             }
             TaskViewModel newTask = new TaskViewModel();
-            if (String.IsNullOrWhiteSpace(id) || id.TrimEnd(' ').Equals("0"))
+            if (String.IsNullOrWhiteSpace(id) || id.TrimEnd(' ').Equals("0") || id.TrimEnd(' ').Equals("All"))
             {
                 newTask = new TaskViewModel
                 {
@@ -156,8 +156,7 @@ namespace TicketTracker.Controllers
                     string[] progressDef = { "Backlog", "Req Gathering", "In Progress", "QA", "Deployed", "User Acceptance" };
                     string HistoryAction = (Array.IndexOf(progressDef, actionID) + 2).ToString();
                     var RowAffected2 = TaskProcessor.AddHistory(ID, HistoryAction, user, "", action_DT);
-                }
-                if (action.Equals("Delete"))
+                }else if (action.Equals("Delete"))
                 {
                     var RowAffected = TaskProcessor.DeleteTask(ID);
                     var RowAffected2 = TaskProcessor.AddHistory("0", "10", user, ID, action_DT);
@@ -174,6 +173,19 @@ namespace TicketTracker.Controllers
             }
 
             return RedirectToAction("CardView", "Home");
+        }
+        [HttpPost]
+        public ActionResult AddComment(string task_id, string comment)
+        {
+            if (ModelState.IsValid)
+            {
+                string user = User.Identity.Name;
+                string date_created = DateTime.Now.ToString();
+                var RowAffected = TaskProcessor.AddComment(task_id, user, comment, date_created);
+                var RowAffected2 = TaskProcessor.AddHistory(task_id, "9", user, "", date_created);
+            }
+
+            return RedirectToAction("TaskView", "Home", new { id = task_id });
         }
     }
 }
