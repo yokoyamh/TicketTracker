@@ -16,13 +16,14 @@ namespace DataLibrary.Logic
             {
                 Name = name,
                 Progress = "Backlog",
+                Priority = "None",
                 Description = description,
                 Assigned_to = assigned_to,
                 Created_by = created_by,
                 Date_Created = date_created
             };
-            string sql = @"INSERT INTO dbo.Tasks (Name, Progress, Description, Assigned_To, Created_By, Date_Created)
-                           SELECT @Name, p.ID, @Description, @Assigned_To, @Created_by, @Date_Created
+            string sql = @"INSERT INTO dbo.Tasks (Name, Progress, Priority, Description, Assigned_To, Created_By, Date_Created)
+                           SELECT @Name, p.ID, @Priority, @Description, @Assigned_To, @Created_by, @Date_Created
                                 FROM dbo.Progress as p
                                 WHERE p.Name = @Progress;";
             return sqlDataAccess.SaveData(sql, data);
@@ -51,6 +52,13 @@ namespace DataLibrary.Logic
                            WHERE Tasks.ID = " + id + " AND Pr.Name = '" + progress + @"';";
             return sqlDataAccess.SaveData(sql);
         }
+        public static int UpdatePriority(string id, string priority)
+        {
+            string sql = @"UPDATE dbo.Tasks 
+                           SET  Priority =  '" + priority + @"'
+                           WHERE Tasks.ID = " + id + @";";
+            return sqlDataAccess.SaveData(sql);
+        }
         public static int DeleteTask(string id)
         {
             string sql = @"DELETE FROM dbo.Tasks WHERE Tasks.ID = " + id + ";";
@@ -62,7 +70,7 @@ namespace DataLibrary.Logic
             string sql = "";
             if (Progress.ToUpper().Equals("ALL"))
             {
-                sql = @"SELECT task.ID, task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
+                sql = @"SELECT task.ID, task.Name, progress.Name as Progress, task.Priority, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
                             FROM dbo.Tasks as task
                             INNER JOIN dbo.Progress as progress ON 
                                 task.Progress = progress.ID
@@ -70,7 +78,7 @@ namespace DataLibrary.Logic
             }
             else
             {
-                sql = @"SELECT task.ID, task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
+                sql = @"SELECT task.ID, task.Name, progress.Name as Progress, task.Priority, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
                             FROM dbo.Tasks as task
                             INNER JOIN dbo.Progress as progress ON 
                                 task.Progress = progress.ID
@@ -81,7 +89,7 @@ namespace DataLibrary.Logic
         }
         public static List<TaskModel> LoadTask(string TaskID)
         {
-            string sql = @"SELECT TOP(1) task.Name, progress.Name as Progress, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
+            string sql = @"SELECT TOP(1) task.Name, progress.Name as Progress, task.Priority, task.Description, task.Assigned_To, task.Created_By, task.Date_Created
                             FROM dbo.Tasks as task
                             INNER JOIN dbo.Progress as progress ON 
                                 task.Progress = progress.ID

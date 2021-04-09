@@ -63,28 +63,51 @@
                         </div>
                         <div class="card-body">
                             @{
-                                    var ProgressClass = Model.ElementAt(innerIndex).progressClass[Array.IndexOf(Model.ElementAt(innerIndex).progressDef, Model.ElementAt(innerIndex).progress)];
-                                    var btnProgressClass = "btn " + ProgressClass + " dropdown-toggle";
-                                    <div class="dropdown mb-4">
-                                        <button class="@btnProgressClass" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            @Model.ElementAt(innerIndex).progress
-                                        </button>
-                                        <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                                            @{
-                                                for (int i = 0; i < Model.ElementAt(innerIndex).progressDef.Length; i++)
-                                                {
-                                                    var ThisProgressClass = Model.ElementAt(innerIndex).progressClass[i];
-                                                    var ThisBtnProgressClass = "btn " + ThisProgressClass + " btn-icon-split";
-                                                    var ProgressActionID = "CardView_All_" + Model.ElementAt(innerIndex).id + "_ProgressEdit_" + Model.ElementAt(innerIndex).progressDef[i];
-                                                    <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = ProgressActionID })">
-                                                        <b class="@ThisBtnProgressClass">
-                                                            <span class="text">@Model.ElementAt(innerIndex).progressDef[i]</span>
-                                                        </b>
-                                                    </a>
-                                                }
+                                var ProgressClass = Model.ElementAt(innerIndex).progressClass[Array.IndexOf(Model.ElementAt(innerIndex).progressDef, Model.ElementAt(innerIndex).progress)];
+                                var PriorityClass = Model.ElementAt(innerIndex).priorityClass[Array.IndexOf(Model.ElementAt(innerIndex).priorityDef, Model.ElementAt(innerIndex).priority)];
+                                var btnProgressClass = "btn " + ProgressClass + " dropdown-toggle";
+                                var btnPriorityClass = "btn " + PriorityClass + " dropdown-toggle";
+
+                                <div class="dropdown mb-4">
+                                    <button class="@btnPriorityClass" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @Model.ElementAt(innerIndex).priority
+                                    </button>
+                                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                        @{
+                                            for (int i = 0; i < Model.ElementAt(innerIndex).priorityDef.Length; i++)
+                                            {
+                                                var ThisPriorityClass = Model.ElementAt(innerIndex).priorityClass[i];
+                                                var ThisBtnPrioritysClass = "btn " + ThisPriorityClass + " btn-icon-split";
+                                                var PriorityActionID = "CardView_All_" + Model.ElementAt(innerIndex).id + "_PriorityEdit_" + Model.ElementAt(innerIndex).priorityDef[i];
+                                                <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = PriorityActionID })">
+                                                    <b class="@ThisBtnPrioritysClass">
+                                                        <span class="text">@Model.ElementAt(innerIndex).priorityDef[i]</span>
+                                                    </b>
+                                                </a>
                                             }
-                                        </div>
+                                        }
                                     </div>
+                                </div>
+                                <div class="dropdown mb-4">
+                                    <button class="@btnProgressClass" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @Model.ElementAt(innerIndex).progress
+                                    </button>
+                                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                        @{
+                                            for (int i = 0; i < Model.ElementAt(innerIndex).progressDef.Length; i++)
+                                            {
+                                                var ThisProgressClass = Model.ElementAt(innerIndex).progressClass[i];
+                                                var ThisBtnProgressClass = "btn " + ThisProgressClass + " btn-icon-split";
+                                                var ProgressActionID = "CardView_All_" + Model.ElementAt(innerIndex).id + "_ProgressEdit_" + Model.ElementAt(innerIndex).progressDef[i];
+                                                <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = ProgressActionID })">
+                                                    <b class="@ThisBtnProgressClass">
+                                                        <span class="text">@Model.ElementAt(innerIndex).progressDef[i]</span>
+                                                    </b>
+                                                </a>
+                                            }
+                                        }
+                                    </div>
+                                </div>
                             }
                             <p class="card-ptext">@Model.ElementAt(innerIndex).description</p>
                         </div>

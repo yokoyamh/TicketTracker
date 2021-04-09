@@ -201,10 +201,12 @@
     <Content Include="Content\assets\img\undraw_profile_2.svg" />
     <Content Include="Content\assets\img\undraw_profile_3.svg" />
     <Content Include="Content\assets\img\undraw_rocket.svg" />
+    <Content Include="Content\Login.css" />
     <Content Include="Scripts\js\demo\chart-area-demo.js" />
     <Content Include="Scripts\js\demo\chart-bar-demo.js" />
     <Content Include="Scripts\js\demo\chart-pie-demo.js" />
     <Content Include="Scripts\js\demo\datatables-demo.js" />
+    <Content Include="Scripts\js\Login.js" />
     <Content Include="Scripts\js\sb-admin-2.js" />
     <Content Include="Scripts\js\sb-admin-2.min.js" />
     <Content Include="Content\assets\vendor\bootstrap\js\bootstrap.bundle.js" />
@@ -2211,6 +2213,7 @@
     <Content Include="Views\Home\TaskView.cshtml" />
     <Content Include="Views\Home\BoardView.cshtml" />
     <Content Include="Views\Home\ListView.cshtml" />
+    <Content Include="Views\Account\AccountManage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

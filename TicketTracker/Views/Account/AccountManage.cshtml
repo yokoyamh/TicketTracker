@@ -1,0 +1,34 @@
+﻿@model TicketTracker.Models.AccountManageViewModel
+@{
+    ViewBag.Title = "Register";
+}
+@Styles.Render("~/Content/LoginCSS")
+
+<!-- Form-->
+<div class="form">
+    <div class="form-toggle"></div>
+    <div class="form-panel one">
+        <div class="form-header">
+            <h1>Register Account</h1>
+        </div>
+        <div class="form-content">
+            @Html.Partial("Login", Model.LoginModel)
+        </div>
+    </div>
+    <div class="form-panel two">
+        <div class="form-header">
+            <h1>Other</h1>
+        </div>
+        <div class="form-content">
+            @Html.Partial("Register", Model.RegisterModel)
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/LoginJS")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+

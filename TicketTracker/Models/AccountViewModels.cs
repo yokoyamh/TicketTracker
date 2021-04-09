@@ -45,13 +45,17 @@ namespace TicketTracker.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
-
+    public class AccountManageViewModel
+    {
+        public LoginViewModel LoginModel { get; set; }
+        public RegisterViewModel RegisterModel { get; set; }
+    }
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [DataType(DataType.Text)]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,6 +68,10 @@ namespace TicketTracker.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

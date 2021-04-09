@@ -20,5 +20,7 @@ namespace TicketTracker.Models
 
         public string[] progressDef = { "Backlog", "Req Gathering", "In Progress", "QA", "Deployed", "User Acceptance" };
         public string[] progressClass = { "btn-light", "btn-secondary", "btn-info", "btn-warning", "btn-primary", "btn-success" };
+        public string[] priorityDef = { "High", "Medium", "Low", "None"};
+        public string[] priorityClass = { "btn-danger", "btn-warning", "btn-success", "btn-secondary" };
     }
 }

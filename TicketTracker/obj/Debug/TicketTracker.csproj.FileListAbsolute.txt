@@ -67,7 +67,6 @@ C:\Users\study\source\repos\TicketTracker\TicketTracker\bin\Microsoft.CodeDom.Pr
 C:\Users\study\source\repos\TicketTracker\TicketTracker\bin\Microsoft.Owin.xml
 C:\Users\study\source\repos\TicketTracker\TicketTracker\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\study\source\repos\TicketTracker\TicketTracker\bin\Microsoft.Owin.Security.xml
-C:\Users\study\source\repos\TicketTracker\TicketTracker\bin\Microsoft.Owin.Security.Cookies.xml
 C:\Users\study\source\repos\TicketTracker\TicketTracker\bin\Microsoft.Owin.Security.Facebook.xml
 C:\Users\study\source\repos\TicketTracker\TicketTracker\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\study\source\repos\TicketTracker\TicketTracker\bin\Microsoft.Owin.Security.MicrosoftAccount.xml

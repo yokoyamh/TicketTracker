@@ -17,7 +17,7 @@ namespace TicketTracker.Controllers
             bool isAuthenticated = User.Identity.IsAuthenticated;
             if (!isAuthenticated)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("AccountManage", "Account");
             }
             var data = TaskProcessor.LoadTasks(id);
 
@@ -28,6 +28,7 @@ namespace TicketTracker.Controllers
                 {
                     id = row.Id,
                     name = row.Name.TrimEnd(' '),
+                    priority = row.Priority.TrimEnd(' '),
                     progress = row.Progress.TrimEnd(' '),
                     description = row.Description.TrimEnd(' '),
                     assigned_to = row.Assigned_to.TrimEnd(' '),
@@ -42,7 +43,7 @@ namespace TicketTracker.Controllers
             bool isAuthenticated = User.Identity.IsAuthenticated;
             if (!isAuthenticated)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("AccountManage", "Account");
             }
             TaskViewModel newTask = new TaskViewModel();
             if (String.IsNullOrWhiteSpace(id) || id.TrimEnd(' ').Equals("0") || id.TrimEnd(' ').Equals("All"))
@@ -52,6 +53,7 @@ namespace TicketTracker.Controllers
                     id = 0,
                     name = "Insert Task Name...",
                     progress = "None",
+                    priority = "None",
                     description = "Insert Description...",
                     assigned_to = "Insert Assigned User...",
                     taskHistories = new List<TaskHistoryModel>(),
@@ -68,6 +70,7 @@ namespace TicketTracker.Controllers
                     id = Int32.Parse(id),
                     name = BaseData[0].Name.TrimEnd(' '),
                     progress = BaseData[0].Progress.TrimEnd(' '),
+                    priority = BaseData[0].Priority.TrimEnd(' '),
                     description = BaseData[0].Description.TrimEnd(' '),
                     assigned_to = BaseData[0].Assigned_to.TrimEnd(' '),
                     created_by = BaseData[0].Created_by.TrimEnd(' '),
@@ -161,6 +164,10 @@ namespace TicketTracker.Controllers
                     var RowAffected = TaskProcessor.DeleteTask(ID);
                     var RowAffected2 = TaskProcessor.AddHistory("0", "10", user, ID, action_DT);
                     return RedirectToAction("CardView", "Home");
+                }else if (action.Equals("PriorityEdit"))
+                {
+                    var RowAffected = TaskProcessor.UpdatePriority(ID, actionID);
+                    var RowAffected2 = TaskProcessor.AddHistory(ID, "11", user, "", action_DT);
                 }
                 if (view.Equals("TaskView"))
                 {

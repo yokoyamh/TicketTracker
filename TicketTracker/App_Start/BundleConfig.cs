@@ -35,6 +35,12 @@ namespace TicketTracker
                       "~/Content/assets/css/sb-admin-2.min.css",
                       "~/Content/assets/vendor/fontawesome-free/css/all.min.css"
                       ));
+            bundles.Add(new StyleBundle("~/Content/LoginCSS").Include(
+                      "~/Content/Login.css"
+                      ));
+            bundles.Add(new ScriptBundle("~/bundles/LoginJS").Include(
+                        "~/Scripts/js/Login.js"));
+
         }
     }
 }

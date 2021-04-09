@@ -52,6 +52,15 @@ namespace TicketTracker.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public ActionResult AccountManage(string returnUrl)
+        {
+            var model = new AccountManageViewModel();
+            model.LoginModel = new LoginViewModel();
+            model.RegisterModel = new RegisterViewModel();
+            ViewBag.ReturnUrl = returnUrl;
+            return View(model);
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -70,12 +79,12 @@ namespace TicketTracker.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return RedirectToAction("AccountManage", "Account");
             }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -87,7 +96,7 @@ namespace TicketTracker.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    return RedirectToAction("AccountManage", "Account");
             }
         }
 
@@ -151,7 +160,7 @@ namespace TicketTracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -169,7 +178,7 @@ namespace TicketTracker.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("AccountManage", "Account");
         }
 
         //

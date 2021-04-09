@@ -9,7 +9,7 @@
     Html.AntiForgeryToken();
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">@Html.EditorFor(model => model.name, new { htmlAttributes = new { @placeholder = "@Model.name" } })</h1>
+        <h1 class="h3 mb-0 text-gray-800">@Html.EditorFor(model => model.name, new { htmlAttributes = new { @placeholder = @Model.name } })</h1>
         <div>
             @{ var DeleteActionID = "TaskView_" + Model.id + "_" + Model.id + "_Delete_0";}
             <a href="@Url.Action("Action", "Home", new { id = DeleteActionID })" class="btn btn-danger btn-circle btn-lg">
@@ -32,8 +32,30 @@
                         {
                             var ProgressClass = Model.progressClass[Array.IndexOf(Model.progressDef, Model.progress)];
                             var btnProgressClass = "btn " + ProgressClass + " dropdown-toggle";
-                            <div class="dropdown mb-4">
+                            var PriorityClass = Model.priorityClass[Array.IndexOf(Model.priorityDef, Model.priority)];
+                            var btnPriorityClass = "btn " + PriorityClass + " dropdown-toggle";
 
+                            <div class="dropdown mb-4">
+                                <button class="@btnPriorityClass" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @Model.priority
+                                </button>
+                                <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                    @{
+                                        for (int i = 0; i < Model.priorityDef.Length; i++)
+                                        {
+                                            var ThisPriorityClass = Model.priorityClass[i];
+                                            var ThisBtnPriorityClass = "btn " + ThisPriorityClass + " btn-icon-split";
+                                            var PriorityActionID = "TaskView_" + Model.id + "_" + Model.id + "_PriorityEdit_" + Model.priorityDef[i];
+                                            <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = PriorityActionID })">
+                                                <b class="@ThisBtnPriorityClass">
+                                                    <span class="text">@Model.priorityDef[i]</span>
+                                                </b>
+                                            </a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="dropdown mb-4">
                                 <button class="@btnProgressClass" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @Model.progress
                                 </button>
@@ -53,16 +75,11 @@
                                     }
                                 </div>
                             </div>
-                        }
-                    }
-                    <p></p>
-                    @{ if (Model.id != 0)
-                        {
                             <p><div>Created By: </div><div>@Model.created_by</div></p>
                             <p><div>Created At: </div><div>@Model.date_created</div></p>
                         }
                     }
-                    <p><div>Assigned To: </div><div>@Html.EditorFor(model => model.assigned_to, new { htmlAttributes = new { @class = "form-control", @placeholder = "@Model.assigned_to" } })</div></p>
+                    <p><div>Assigned To: </div><div>@Html.EditorFor(model => model.assigned_to, new { htmlAttributes = new { @class = "form-control", @placeholder = @Model.assigned_to } })</div></p>
                 </div>
             </div>
         </div>
@@ -72,7 +89,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Description</h6>
                 </div>
                 <div class="card-body">
-                    @Html.TextAreaFor(model => model.description, 12, 40, new { @class = "form-control", @placeholder = "@Model.description" })
+                    @Html.TextAreaFor(model => model.description, 12, 40, new { @class = "form-control", @placeholder = @Model.description })
                 </div>
             </div>
         </div>
@@ -105,6 +122,7 @@
             <div class="card-body">
                     @if (Model.id != 0)
                     {
+                        <!--Fix - follow MVC guideline-->
                         <form action="/Home/AddComment" method="post" id="commentForm">
                             <input type="hidden" value="@Model.id" name="task_id">
                             <textarea name="comment" form="commentForm" rows="6" class="form-control" placeholder="Enter text here..."></textarea>
