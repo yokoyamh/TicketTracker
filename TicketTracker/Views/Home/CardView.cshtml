@@ -1,4 +1,4 @@
-﻿@model  IEnumerable<TicketTracker.Models.CardViewModel>
+﻿@model  TicketTracker.Models.CardViewModel
 @{
     ViewBag.Title = "Card View";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,7 +25,7 @@
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             Tasks
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">@{var count = Model.Count() - Model.Count(mdl => mdl.progress.TrimEnd(' ').Equals("User Acceptance"));}@count</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@{var count = Model.cardAry.Count() - Model.cardAry.Count(mdl => mdl.progress.TrimEnd(' ').Equals("User Acceptance"));}@count</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -37,51 +37,51 @@
 </div>
 @{
     var index = 0;
-    while (index < Model.Count())
+    while (index < Model.cardAry.Count())
     {
         <!-- Content Row -->
         <div class="row">
         @{
             var innerIndex = index;
-            while (innerIndex < Model.Count() && innerIndex < index + 4)
+            while (innerIndex < Model.cardAry.Count() && innerIndex < index + 4)
             {
                 <div class="col-xl-3 col-md-6 mb-4">
                     <!-- Approach -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">@Model.ElementAt(innerIndex).name.TrimEnd(' ')</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">@Model.cardAry.ElementAt(innerIndex).name.TrimEnd(' ')</h6>
                             <div class="dropdown no-arrow">
                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="@Url.Action("TaskView", "Home", new  { id = Model.ElementAt(innerIndex).id.ToString().TrimEnd(' ') })">View/Edit</a>
-                                    @{ var DeleteActionID = "CardView_All_" + Model.ElementAt(innerIndex).id + "_Delete_0";}
+                                    <a class="dropdown-item" href="@Url.Action("TaskView", "Home", new  { id = Model.cardAry.ElementAt(innerIndex).id.ToString().TrimEnd(' ') })">View/Edit</a>
+                                    @{ var DeleteActionID = "CardView_" + Model.view +"_" + Model.cardAry.ElementAt(innerIndex).id + "_Delete_0";}
                                     <a class="dropdown-item" href="@Url.Action("Action", "Home", new  { id =  DeleteActionID})">Delete</a>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
                             @{
-                                var ProgressClass = Model.ElementAt(innerIndex).progressClass[Array.IndexOf(Model.ElementAt(innerIndex).progressDef, Model.ElementAt(innerIndex).progress)];
-                                var PriorityClass = Model.ElementAt(innerIndex).priorityClass[Array.IndexOf(Model.ElementAt(innerIndex).priorityDef, Model.ElementAt(innerIndex).priority)];
+                                var ProgressClass = Model.progressClass[Array.IndexOf(Model.progressDef, Model.cardAry.ElementAt(innerIndex).progress)];
+                                var PriorityClass = Model.priorityClass[Array.IndexOf(Model.priorityDef, Model.cardAry.ElementAt(innerIndex).priority)];
                                 var btnProgressClass = "btn " + ProgressClass + " dropdown-toggle";
                                 var btnPriorityClass = "btn " + PriorityClass + " dropdown-toggle";
 
                                 <div class="dropdown mb-4">
                                     <button class="@btnPriorityClass" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @Model.ElementAt(innerIndex).priority
+                                        @Model.cardAry.ElementAt(innerIndex).priority
                                     </button>
                                     <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
                                         @{
-                                            for (int i = 0; i < Model.ElementAt(innerIndex).priorityDef.Length; i++)
+                                            for (int i = 0; i < Model.priorityDef.Length; i++)
                                             {
-                                                var ThisPriorityClass = Model.ElementAt(innerIndex).priorityClass[i];
+                                                var ThisPriorityClass = Model.priorityClass[i];
                                                 var ThisBtnPrioritysClass = "btn " + ThisPriorityClass + " btn-icon-split";
-                                                var PriorityActionID = "CardView_All_" + Model.ElementAt(innerIndex).id + "_PriorityEdit_" + Model.ElementAt(innerIndex).priorityDef[i];
+                                                var PriorityActionID = "CardView_" + Model.view + "_" + Model.cardAry.ElementAt(innerIndex).id + "_PriorityEdit_" + Model.priorityDef[i];
                                                 <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = PriorityActionID })">
                                                     <b class="@ThisBtnPrioritysClass">
-                                                        <span class="text">@Model.ElementAt(innerIndex).priorityDef[i]</span>
+                                                        <span class="text">@Model.priorityDef[i]</span>
                                                     </b>
                                                 </a>
                                             }
@@ -90,18 +90,18 @@
                                 </div>
                                 <div class="dropdown mb-4">
                                     <button class="@btnProgressClass" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @Model.ElementAt(innerIndex).progress
+                                        @Model.cardAry.ElementAt(innerIndex).progress
                                     </button>
                                     <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
                                         @{
-                                            for (int i = 0; i < Model.ElementAt(innerIndex).progressDef.Length; i++)
+                                            for (int i = 0; i < Model.progressDef.Length; i++)
                                             {
-                                                var ThisProgressClass = Model.ElementAt(innerIndex).progressClass[i];
+                                                var ThisProgressClass = Model.progressClass[i];
                                                 var ThisBtnProgressClass = "btn " + ThisProgressClass + " btn-icon-split";
-                                                var ProgressActionID = "CardView_All_" + Model.ElementAt(innerIndex).id + "_ProgressEdit_" + Model.ElementAt(innerIndex).progressDef[i];
+                                                var ProgressActionID = "CardView_" + Model.view + "_" + Model.cardAry.ElementAt(innerIndex).id + "_ProgressEdit_" + Model.progressDef[i];
                                                 <a class="dropdown-item" href="@Url.Action("Action", "Home", new { id = ProgressActionID })">
                                                     <b class="@ThisBtnProgressClass">
-                                                        <span class="text">@Model.ElementAt(innerIndex).progressDef[i]</span>
+                                                        <span class="text">@Model.progressDef[i]</span>
                                                     </b>
                                                 </a>
                                             }
@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
                             }
-                            <p class="card-ptext">@Model.ElementAt(innerIndex).description</p>
+                            <p class="card-ptext">@Model.cardAry.ElementAt(innerIndex).description</p>
                         </div>
                     </div>
                 </div>

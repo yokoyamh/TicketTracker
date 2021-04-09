@@ -20,11 +20,12 @@ namespace TicketTracker.Controllers
                 return RedirectToAction("AccountManage", "Account");
             }
             var data = TaskProcessor.LoadTasks(id);
-
-            List<CardViewModel> cardAry = new List<CardViewModel>();
+            CardViewModel cardView = new CardViewModel();
+            cardView.view = id;
+            cardView.cardAry = new List<CardModel>();
             foreach (var row in data)
             {
-                cardAry.Add(new CardViewModel
+                cardView.cardAry.Add(new CardModel
                 {
                     id = row.Id,
                     name = row.Name.TrimEnd(' '),
@@ -36,7 +37,7 @@ namespace TicketTracker.Controllers
                     date_created = row.Date_Created.TrimEnd(' ')
                 });
             }
-            return View(cardAry);
+            return View(cardView);
         }
         public ActionResult TaskView(string id)
         {
